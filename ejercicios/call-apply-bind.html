@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <title>
+      Function.prototype.call, Function.prototype.apply, Function.prototype.bind
+    </title>
+  </head>
+
+  <body>
+    <a href="/ejercicios/">Go back</a>
+    <p><em>Abre la consola</em></p>
+
+    <ul>
+      <li><button class="call-to-action">Aprender</button></li>
+      <li><button class="call-to-action">Aprender Más</button></li>
+      <li><button class="call-to-action">¡Nunca parar de Aprender!</button></li>
+    </ul>
+
+    <script>
+      // Establece `this` usando `call`
+      function saludar() {
+        console.log(`Hola. Soy ${this.name} y ${this.apellido}`);
+      }
+
+      const josue = {
+        name: "Josue",
+        apellido: "Naure",
+      };
+
+      saludar.call(josue);
+
+      function caminar(metros, direccion) {
+        console.log(`${this.name} camina ${metros} metros hacia ${direccion}`);
+      }
+
+      // Establece `this` usando `call` y pasar argumentos a la función
+      caminar.call(josue, 400, "norte");
+      // Establece `this` usando `apply` y pasar argumentos a la función
+      caminar.apply(josue, [800, "noreste"]);
+      // Establecer `this` en una nueva función usando `bind`
+      const daniel = { name: "Daniel", apellido: "Sanchez" };
+      const danielsaludar = saludar.bind(daniel);
+      danielsaludar();
+      const danielCamina = caminar.bind(daniel);
+      danielCamina(1000, "este");
+      //Otra forma de pasar argumentos que permite guardarlos,hardcodearlo
+      const danielCam = caminar.bind(daniel, 2000, "sur");
+      danielCam();
+      //tecnica de currying,se puede guardar parcialmente los argumentos
+      const danielC = caminar.bind(daniel, 2000);
+      danielC("sureste");
+      // Cuándo es útil usar uno de estos métodos
+      const buttons = document.getElementsByClassName("call-to-action");
+      // buttons.forEach((button) => {
+      //   button.onClick = () => alert("Nunca pares de aprender");
+      // });
+      //NodeList
+      Array.prototype.forEach.call(buttons, (button) => {
+        button.onclick = () => alert("Nunca pares de aprender");
+      });
+    </script>
+  </body>
+</html>
